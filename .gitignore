@@ -1,0 +1,15 @@
+# Ignore all virtual environments and dependency folders
+venv/
+env/
+*/venv/
+*/env/
+**/venv/
+**/env/
+
+# Ignore Python cache files
+__pycache__/
+**/__pycache__/
+
+# Ignore 'Lib' folder in any nested directory
+Lib/
+**/Lib/
