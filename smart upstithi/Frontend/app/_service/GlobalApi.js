@@ -129,7 +129,7 @@ const GlobalApi = {
   },
 
   // ✅ Fetch attendance list for a given month and classroom
-  GetAttendanceList: async (branch, semester, division, month, subject) => {
+  GetAttendanceList: async (branch, semester, division, month, subject, type) => {
     try {
       if (!branch || !semester || !division || !month) {
         console.error("❌ Missing parameters:", {
@@ -137,6 +137,7 @@ const GlobalApi = {
           semester,
           division,
           month,
+          type,
         });
         return { success: false, message: "All parameters are required." };
       }
@@ -163,6 +164,7 @@ const GlobalApi = {
           division,
           month,
           subject,
+          type,
         }
       );
       console.log("✅ API Response:", response.data);

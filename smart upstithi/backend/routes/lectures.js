@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
 // ✅ 1️⃣ Add a New Lecture
 router.post("/addlecture", async (req, res) => {
   try {
-    const { FacultyID, Branch, Semester, Division, Subjects } = req.body;
+    const { FacultyID, Branch, Semester, Division, Subjects, TypeOfLecture } = req.body;
     console.log("Received Data:", req.body); // Log request body
 
     // Validate input
@@ -27,6 +27,7 @@ router.post("/addlecture", async (req, res) => {
       Division,
       FacultyID,
       Semester,
+      TypeOfLecture,
       Subjects
     });
 

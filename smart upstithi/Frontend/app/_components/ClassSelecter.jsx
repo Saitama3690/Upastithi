@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import GlobalApi from "../_service/GlobalApi";
 
+const TYPEOFLECTURE = ["Lecture", "Lab"];
+
 function ClassSelector({
   selectedBranch,
   setSelectedBranch,
@@ -10,6 +12,8 @@ function ClassSelector({
   setSelectedDivision,
   selectedSubject,
   setSelectedSubject,
+  typeOfLecture,
+  setTypeOfLecture,
 }) {
   const [branches, setBranches] = useState([]);
   const [semesters, setSemesters] = useState([]);
@@ -17,6 +21,7 @@ function ClassSelector({
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [type, setType] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -96,7 +101,7 @@ function ClassSelector({
           setSubjects([]);
         }
       })
-      
+
       .catch((err) => {
         console.error("❌ Error fetching subjects:", err);
         setError("Failed to load subjects");
@@ -114,6 +119,7 @@ function ClassSelector({
           setSelectedSemester("");
           setSelectedDivision("");
           setSelectedSubject("");
+          setTypeOfLecture("");
         }}
         className="p-2 border rounded w-1/4"
       >
@@ -132,6 +138,7 @@ function ClassSelector({
           setSelectedSemester(e.target.value);
           setSelectedDivision("");
           setSelectedSubject("");
+          setTypeOfLecture("");
         }}
         className="p-2 border rounded w-1/4"
         disabled={!selectedBranch}
@@ -150,6 +157,7 @@ function ClassSelector({
         onChange={(e) => {
           setSelectedDivision(e.target.value);
           setSelectedSubject("");
+          setTypeOfLecture("");
         }}
         className="p-2 border rounded w-1/4"
         disabled={!selectedSemester}
@@ -165,7 +173,10 @@ function ClassSelector({
       {/* Subject Selector */}
       <select
         value={selectedSubject}
-        onChange={(e) => setSelectedSubject(e.target.value)}
+        onChange={(e) => {
+          setSelectedSubject(e.target.value);
+          setTypeOfLecture("");
+        }}
         className="p-2 border rounded w-1/4"
         disabled={!selectedDivision || subjects.length === 0}
       >
@@ -173,6 +184,21 @@ function ClassSelector({
         {subjects.map((subject, index) => (
           <option key={index} value={subject}>
             {subject}
+          </option>
+        ))}
+      </select>
+
+      {/* lecture type */}
+      <select
+        value={typeOfLecture}
+        onChange={(e) => setTypeOfLecture(e.target.value)}
+        className="p-2 border rounded w-1/4"
+        disabled={!selectedDivision || subjects.length === 0}
+      >
+        <option value="">-- Select Type of Period --</option>
+        {TYPEOFLECTURE.map((Type, index) => (
+          <option key={index} value={Type}>
+            {Type}
           </option>
         ))}
       </select>

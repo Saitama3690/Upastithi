@@ -17,6 +17,7 @@ function Attendance() {
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedDivision, setSelectedDivision] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [typeOfLecture, setTypeOfLecture] = useState("");
 
   const [attendanceList, setAttendanceList] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +44,8 @@ function Attendance() {
       semester: selectedSemester,
       division: selectedDivision,
       month: formattedMonth,
-      subject: selectedSubject
+      subject: selectedSubject,
+      typeOfLecture: typeOfLecture
     });
 
     // if(!selectedBranch && !selectedSemester && !selectedDivision && !formattedMonth){
@@ -53,7 +55,8 @@ function Attendance() {
       selectedSemester,
       selectedDivision,
       formattedMonth,
-      selectedSubject
+      selectedSubject,
+      typeOfLecture
     )
       .then((response) => {
         setAttendanceList(response);
@@ -92,6 +95,8 @@ function Attendance() {
           selectedDivision={selectedDivision}
           setSelectedDivision={setSelectedDivision}
           setSelectedSubject={setSelectedSubject}
+          typeOfLecture={typeOfLecture}
+          setTypeOfLecture={setTypeOfLecture}
         />
 
         <div className="lg:col-span-4">

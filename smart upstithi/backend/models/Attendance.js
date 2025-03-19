@@ -5,6 +5,7 @@ const attendanceSchema = new Schema({
     Enrollment: { type: Number, required: true },
     Name: { type: String, required: true },
     Subject: { type: String, required: true },
+    TypeOfLecture: {type : String,required: true},
     Branch: { type: String, required: true },
     Semester: { type: String, required: true },
     Division: { type: String, required: true },

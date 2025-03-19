@@ -4,16 +4,25 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const branches = ["Computer Science", "Electronics", "Mechanical", "Civil"];
-const subjectsList = ["Mathematics", "Physics", "Chemistry", "Programming", "Database"];
+const subjectsList = [
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "Programming",
+  "Database",
+];
+const TYPEOFLECTURE = ["Lecture", "Lab"];
 
 const AddLectures = () => {
   const navigate = useNavigate();
   const [selectedBranch, setSelectedBranch] = useState("");
   const [semester, setSemester] = useState("");
   const [division, setDivision] = useState("");
-  const [selectedSubjects, setSelectedSubjects] = useState([{ name: "" }]);
+  const [typeOfLecture, setTypeOfLecture] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+
 
   const handleAddSubject = () => {
     setSelectedSubjects((prev) => [...prev, { name: "" }]);
@@ -60,20 +69,24 @@ const AddLectures = () => {
       Branch: selectedBranch,
       Semester: semester,
       Division: division,
-      Subjects: selectedSubjects.map((sub) => sub.name),
+      TypeOfLecture: typeOfLecture,
+      Subjects: selectedSubject,
     };
 
     console.log("Final Data to Submit:", finalData);
 
     try {
-      const response = await fetch("https://192.168.1.4:3000/api/lectures/addlecture", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(finalData),
-      });
+      const response = await fetch(
+        "https://192.168.1.4:3000/api/lectures/addlecture",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(finalData),
+        }
+      );
 
       const json = await response.json();
       console.log("Server Response:", json);
@@ -105,14 +118,16 @@ const AddLectures = () => {
       >
         <option value="">-- Select Branch --</option>
         {branches.map((branch, index) => (
-          <option key={index} value={branch}>{branch}</option>
+          <option key={index} value={branch}>
+            {branch}
+          </option>
         ))}
       </select>
 
       {/* Semester Input */}
       <label className="block mb-2">Enter Semester:</label>
       <Input
-        type="number"
+        type="text"
         className="border rounded-lg px-3 py-2 w-full mb-4"
         value={semester}
         onChange={(e) => setSemester(e.target.value)}
@@ -129,26 +144,39 @@ const AddLectures = () => {
         placeholder="Enter Division"
       />
 
-      
-
       <h3 className="text-lg font-semibold mb-2">Add Subjects</h3>
-      {selectedSubjects.map((subject, index) => (
-        <div key={index} className="border p-4 rounded-lg mb-4">
+        <div className="border p-4 rounded-lg mb-4">
           <label className="block mb-2">Select Subject:</label>
           <select
             className="border rounded-lg px-3 py-2 w-full mb-2"
-            value={subject.name}
-            onChange={(e) => handleSubjectChange(index, e.target.value)}
+            value={selectedSubject}
+            onChange={(e) => setSelectedSubject(e.target.value)}
           >
             <option value="">-- Select Subject --</option>
             {subjectsList.map((subjectName) => (
-              <option key={subjectName} value={subjectName}>{subjectName}</option>
+              <option key={subjectName} value={subjectName}>
+                {subjectName}
+              </option>
             ))}
           </select>
         </div>
-      ))}
+      
 
-      <Button onClick={handleAddSubject} className="mt-2">+ Add Subject</Button>
+      <label className="block mb-2">Type of Period:</label>
+      <select
+        className="border rounded-lg px-3 py-2 w-full mb-4"
+        value={typeOfLecture}
+        onChange={(e) => setTypeOfLecture(e.target.value)}
+      >
+        <option value="">-- Select Type of Period --</option>
+        {TYPEOFLECTURE.map((Type, index) => (
+          <option key={index} value={Type}>
+            {Type}
+          </option>
+        ))}
+      </select>
+
+      {/* <Button onClick={handleAddSubject} className="mt-2">+ Add Subject</Button> */}
       <Button onClick={handleSubmit} className="mt-4 w-full" disabled={loading}>
         {loading ? "Submitting..." : "Submit"}
       </Button>

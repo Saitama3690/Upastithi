@@ -6,8 +6,10 @@ const LectureSchema = new mongoose.Schema({
   Division: { type: String, required: true }, // Division (e.g., "A", "B")
   Semester: { type: Number, required: true }, // Semester (e.g., 1, 2, 3, ...)
   Branch: { type: String, required: true }, // Department Name
+
+  TypeOfLecture : {type : String, required: true},
   
-  Subjects: { type: [String], required: true } // Array of subjects
+  Subjects: { type: String, required: true } // Array of subjects
 });
 
 const Lecture = mongoose.model("Lecture", LectureSchema);

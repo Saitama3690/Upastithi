@@ -29,7 +29,7 @@ router.get("/recognition-status", (req, res) => {
 // ✅ Fetch Attendance Records
 router.post("/show-attendance", async (req, res) => {
   try {
-    const { branch, semester, division, month, subject} = req.body;
+    const { branch, semester, division, month, subject, type} = req.body;
 
     // if (!classroomID || !month) {
     //   return res
@@ -45,6 +45,8 @@ router.post("/show-attendance", async (req, res) => {
       .endOf("month")
       .format("YYYY-MM-DD");
 
+      console
+
     // Find attendance records for the given classroom and month
     const attendanceRecords = await Attendances.find({
       Branch: branch,
@@ -52,10 +54,11 @@ router.post("/show-attendance", async (req, res) => {
       Division: String(division),
       Month: month,
       Subject: subject,
+      TypeOfLecture: type,
 
       // More efficient than regex //date hatake month update karna he
     });
-    console.log("ese dikhta hai attendance",attendanceRecords,branch, semester, division, month,subject);
+    console.log("ese dikhta hai attendance",attendanceRecords,branch, semester, division, month,subject, type);
 
     if (!attendanceRecords.length) {
       return res.status(404).json({ message: "No attendance records found" });
@@ -102,6 +105,7 @@ router.post("/add-attendance", async (req, res) => {
       Enrollment,
       Name,
       Subject,
+      TypeOfLecture,
       Branch,
       Semester,
       Division,
@@ -122,6 +126,7 @@ router.post("/add-attendance", async (req, res) => {
     let existingRecord = await Attendances.findOne({
       Enrollment,
       Subject,
+      TypeOfLecture,
       Semester,
       Division,
       Month
@@ -151,6 +156,7 @@ router.post("/add-attendance", async (req, res) => {
         Name,
         Subject,
         Branch,
+        TypeOfLecture,
         Semester,
         Division,
         Attendance: newAttendance, // Array of { Date, Present }
