@@ -1,4 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import "./index.css"; // Make sure this path is correct
 import Landing from "./components/Landing";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";

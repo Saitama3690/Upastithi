@@ -3,15 +3,14 @@ import React from "react";
 
 function Header() {
   let name = "Guest";
-  let email;
+
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       name = decodedToken?.user?.name || "User";
-      email = decodedToken?.user?.email;
-      console.log("user name and name", decodedToken, name);
+      // console.log("user name and name", decodedToken, name);
     } catch (error) {
       console.error("Invalid token:", error);
     }
@@ -29,7 +28,7 @@ function Header() {
   };
 
   // Function to generate a random background color
-  const getRandomColor = () => {
+  const getRandomColor = (() => {
     const colors = [
       "#FFADAD",
       "#FFD6A5",
@@ -42,8 +41,17 @@ function Header() {
       "#FF69B4",
       "#FDCB58",
     ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
+    let index = 0; // To track the current index
+  
+    return () => {
+      const color = colors[index]; // Get the color at the current index
+      index = (index + 1) % colors.length; // Move to the next index, looping back to 0 if needed
+      return color;
+    };
+  })();
+  
+  // Example usage:
+
 
   // Avatar Component
   const Avatar = ({ name, size = 50 }) => {
@@ -80,8 +88,6 @@ function Header() {
       <div className="flex gap-2 items-center m-2">
         <Avatar name={name} size={50} />
         <div>
-          <h2>{name}</h2>
-          <h2 style={{ fontSize: "12px", color: "#bbbbbb" }}>{email}</h2>
         </div>
       </div>
     </div>

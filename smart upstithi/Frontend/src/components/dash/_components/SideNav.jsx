@@ -1,7 +1,8 @@
 "use client"
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChartNoAxesCombined, GraduationCap, EyeIcon, FilePenLine, LayoutIcon, School2, Laugh } from 'lucide-react';
+import { useLocation } from "react-router-dom";
 
 // Function to extract initials
 const getInitials = (name) => {
@@ -15,13 +16,29 @@ const getInitials = (name) => {
 };
 
 // Function to generate a random background color
-const getRandomColor = () => {
+const getRandomColor = (() => {
   const colors = [
-    "#FFADAD", "#FFD6A5", "#FDFFB6", "#CAFFBF", "#9BF6FF",
-    "#A0C4FF", "#BDB2FF", "#FFC6FF", "#FF69B4", "#FDCB58"
+    "#FFADAD",
+    "#FFD6A5",
+    "#FDFFB6",
+    "#CAFFBF",
+    "#9BF6FF",
+    "#A0C4FF",
+    "#BDB2FF",
+    "#FFC6FF",
+    "#FF69B4",
+    "#FDCB58",
   ];
-  return colors[Math.floor(Math.random() * colors.length)];
-};
+  let index = 0; // To track the current index
+
+  return () => {
+    const color = colors[index]; // Get the color at the current index
+    index = (index + 1) % colors.length; // Move to the next index, looping back to 0 if needed
+    return color;
+  };
+})();
+
+
 
 // Avatar Component
 const Avatar = ({ name, size = 50 }) => {
@@ -61,7 +78,7 @@ function SideNav() {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       name = decodedToken?.user?.name || "User";
       email = decodedToken?.user?.email;
-      console.log("user name and name", decodedToken, name)
+      // console.log("user name and name", decodedToken, name)
     } catch (error) {
       console.error("Invalid token:", error);
     }
@@ -79,6 +96,16 @@ function SideNav() {
     { id: 8, name: 'Add Attendance', icon: Laugh, path: '/dashboard/Add-attendance' },
   ];
 
+  const pathName = useLocation();
+
+
+  useEffect (()=>{
+  },[pathName.pathname])
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  // const isActive = pathName.pathname === menuList.menu.path;
+
   return (
     <div className='border shadow-md h-screen p-3'>
       {/* Logo Section */}
@@ -92,14 +119,27 @@ function SideNav() {
       {menuList.map((menu) => (
         <Link to={menu.path} key={menu.id} className="block">
           <h2
-            className="flex items-center gap-2 p-3 rounded-md cursor-pointer text-slate-500"
+            className='flex items-center hover:bg-primary hover:text-white gap-2 p-3 rounded-md cursor-pointer text-slate-500'
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#ac8952";
+              e.currentTarget.style.color = "white";
+            }}
+    onMouseLeave={(e) => {
+      if (pathName.pathname !== menu.path) {
+        e.currentTarget.style.backgroundColor = "transparent";
+        e.currentTarget.style.color = "black";
+
+      }}}
+            
+            
             style={{
               transition: "background 0.2s ease-in-out",
-              cursor: "pointer"
+              cursor: "pointer",
+              backgroundColor: pathName.pathname === menu.path ? "#ac8952" : "transparent",
+              color: pathName.pathname === menu.path ? "white" : "inherit",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#E5E7EB"}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
-          >
+            
+            >
             <menu.icon className="w-5 h-5" />
             {menu.name}
           </h2>

@@ -34,7 +34,7 @@ const GlobalApi = {
       const token = localStorage.getItem("token");
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       let facultyID = decodedToken?.user?.id;
-      console.log("teacher hai",facultyID)
+      // console.log("teacher hai",facultyID)
       const response = await axios.get(`${BASE_URL}/lectures/branches`, {
         headers: {
           "Content-Type": "application/json",

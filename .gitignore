@@ -13,3 +13,19 @@ __pycache__/
 # Ignore 'Lib' folder in any nested directory
 Lib/
 **/Lib/
+
+
+# Ignore Python virtual environment
+AI_DA/Lib/
+AI_DA/Include/
+AI_DA/Scripts/
+AI_DA/pyvenv.cfg
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
