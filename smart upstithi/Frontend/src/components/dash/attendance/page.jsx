@@ -104,6 +104,7 @@ function Attendance() {
             onClick={onSearchHandler}
             disabled={isLoading}
             className="w-full md:w-auto"
+            id="buttun"
           >
             {isLoading ? "Searching..." : "Search"}
           </Button>
